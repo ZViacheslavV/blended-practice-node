@@ -10,10 +10,3 @@ export const errorHandler = (err, req, res, next) => {
     .status(500)
     .json({ message: 'Something went wrong. Please try again later.' });
 };
-
-/* {
-    "name": "Product",
-    "price": "1000",
-    "category": "books",
-    "description": "description"
-} */
