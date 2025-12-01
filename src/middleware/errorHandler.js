@@ -1,4 +1,4 @@
-import { HttpError } from "http-errors";
+import { HttpError } from 'http-errors';
 
 export const errorHandler = (err, req, res, next) => {
   console.error(err);
@@ -8,5 +8,12 @@ export const errorHandler = (err, req, res, next) => {
 
   res
     .status(500)
-    .json({ message: "Something went wrong. Please try again later." });
+    .json({ message: 'Something went wrong. Please try again later.' });
 };
+
+/* {
+    "name": "Product",
+    "price": "1000",
+    "category": "books",
+    "description": "description"
+} */
