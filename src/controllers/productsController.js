@@ -7,7 +7,7 @@ import {
   updateProduct,
 } from '../services/products.js';
 
-export const getAllProducts = async (req, res) => {
+export const getAllProductsController = async (req, res) => {
   const products = await getProducts();
 
   res.json({
@@ -33,7 +33,7 @@ export const getProductByIdController = async (req, res) => {
 export const createProductController = async (req, res) => {
   const product = await createProduct(req.body);
 
-  res.json({
+  res.status(201).json({
     status: 201,
     message: 'Successfully created product!',
     data: product,
