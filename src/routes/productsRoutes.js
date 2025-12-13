@@ -6,8 +6,11 @@ import {
   getProductByIdController,
   updateProductController,
 } from '../controllers/productsController.js';
+import { authenticate } from '../middleware/authenticate.js';
 
 const productsRouter = Router();
+
+productsRouter.use('/products', authenticate);
 
 productsRouter.get('/products', getAllProductsController);
 productsRouter.get('/products/:productId', getProductByIdController);

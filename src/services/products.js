@@ -1,6 +1,7 @@
 import { ProductModel } from '../models/product.js';
 
-export const getProducts = async ({ filter = {} }) => ProductModel.find(filter);
+export const getProducts = async ({ filter = {} }) =>
+  ProductModel.find({ userId: filter.userId });
 
 export const getProductById = (productId, userId) =>
   ProductModel.findOne({ _id: productId, userId });
