@@ -1,3 +1,25 @@
-export const registerUser = async (req, res, next) => {
-  const { email, password } = req.body;
+import { setSessionCookies } from '../helper/authHelper.js';
+import { loginUser, registerUser } from '../services/auth.js';
+
+export const registerUserController = async (req, res) => {
+  const user = await registerUser(req.body);
+
+  res.json({
+    status: 200,
+    message: 'Successfully registered a user!',
+    data: user,
+  });
+};
+
+//TODO
+export const loginUserController = async (req, res) => {
+  const session = await loginUser(req.body);
+
+  setSessionCookies(session, res);
+
+  res.json({
+    status: 200,
+    message: 'Successfully logged in a user!',
+    data: user,
+  });
 };

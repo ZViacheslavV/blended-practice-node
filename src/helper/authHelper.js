@@ -1,0 +1,22 @@
+import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/time.js';
+
+export const setSessionCookies = (res, session) => {
+  res.cookie('accessToken', session.accessToken, {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'none',
+    maxAge: FIFTEEN_MINUTES,
+  });
+  res.cookie('refreshToken', session.refreshToken, {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'none',
+    maxAge: ONE_DAY,
+  });
+  res.cookie('accessToken', session.session._id, {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'none',
+    maxAge: ONE_DAY,
+  });
+};
