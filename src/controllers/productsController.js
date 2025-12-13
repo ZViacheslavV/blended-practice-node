@@ -19,7 +19,7 @@ export const getAllProductsController = async (req, res) => {
 
 export const getProductByIdController = async (req, res) => {
   const { productId } = req.params;
-  const product = await getProductById(productId, res.user._id);
+  const product = await getProductById(productId, req.user._id);
 
   if (!product) throw createHttpError(404, 'Product not found');
 
@@ -31,7 +31,8 @@ export const getProductByIdController = async (req, res) => {
 };
 
 export const createProductController = async (req, res) => {
-  const product = await createProduct(req.body);
+  // const userId = req.body.userId ? req.body.userId : req.user._id;
+  const product = await createProduct({ ...req.body, userId: req.user._id });
 
   res.status(201).json({
     status: 201,
@@ -42,7 +43,7 @@ export const createProductController = async (req, res) => {
 
 export const updateProductController = async (req, res) => {
   const { productId } = req.params;
-  const product = await updateProduct(productId, req.body);
+  const product = await updateProduct(productId, req.body, req.user._id);
 
   if (!product) throw createHttpError(404, 'Product not found');
 
@@ -55,13 +56,9 @@ export const updateProductController = async (req, res) => {
 
 export const deleteProductController = async (req, res) => {
   const { productId } = req.params;
-  const product = await deleteProduct(productId);
+  const product = await deleteProduct(productId, req.user._id);
 
   if (!product) throw createHttpError(404, 'Product not found');
 
-  res.json({
-    status: 200,
-    message: 'Successfully deleted product!',
-    data: product,
-  });
+  res.status(204).send();
 };

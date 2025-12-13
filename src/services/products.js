@@ -8,8 +8,10 @@ export const getProductById = (productId, userId) =>
 
 export const createProduct = (payload) => ProductModel.create(payload);
 
-export const updateProduct = (productId, payload) =>
-  ProductModel.findOneAndUpdate({ _id: productId }, payload, { new: true });
+export const updateProduct = (productId, payload, userId) =>
+  ProductModel.findOneAndUpdate({ _id: productId, userId }, payload, {
+    new: true,
+  });
 
-export const deleteProduct = (productId) =>
-  ProductModel.findOneAndDelete({ _id: productId });
+export const deleteProduct = (productId, userId) =>
+  ProductModel.findOneAndDelete({ _id: productId, userId });
