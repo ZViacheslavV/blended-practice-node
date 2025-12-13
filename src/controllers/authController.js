@@ -1,5 +1,10 @@
 import { clearSession, setSessionCookies } from '../helper/authHelpers.js';
-import { loginUser, logoutUser, registerUser } from '../services/auth.js';
+import {
+  loginUser,
+  logoutUser,
+  refreshSession,
+  registerUser,
+} from '../services/auth.js';
 
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
@@ -31,4 +36,23 @@ export const logoutUserController = async (req, res) => {
   clearSession(res);
 
   res.status(204).send();
+};
+
+export const refreshSessionController = async (req, res) => {
+  try {
+    const { sessionId, refreshToken } = req.cookies;
+    const session = await refreshSession(sessionId, refreshToken);
+
+    setSessionCookies(res, session);
+
+    res.json({
+      status: 200,
+      message: 'Successfully refreshed a session!',
+      /* data:{} */
+    });
+  } catch (err) {
+    clearSession(res);
+
+    throw err;
+  }
 };
