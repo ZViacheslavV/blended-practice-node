@@ -1,5 +1,5 @@
-import { setSessionCookies } from '../helper/authHelpers.js';
-import { loginUser, registerUser } from '../services/auth.js';
+import { clearSession, setSessionCookies } from '../helper/authHelpers.js';
+import { loginUser, logoutUser, registerUser } from '../services/auth.js';
 
 export const registerUserController = async (req, res) => {
   const user = await registerUser(req.body);
@@ -21,4 +21,14 @@ export const loginUserController = async (req, res) => {
     message: 'Successfully logged in a user!',
     data: user,
   });
+};
+
+export const logoutUserController = async (req, res) => {
+  const { sessionId, refreshToken } = req.cookies;
+
+  if (sessionId) await logoutUser(sessionId, refreshToken);
+
+  clearSession(res);
+
+  res.status(204).send();
 };

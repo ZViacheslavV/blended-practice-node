@@ -43,3 +43,31 @@ export const loginUser = async (payload) => {
 
   return [session, existingUser];
 };
+
+export const logoutUser = async (sessionId, refreshToken) => {
+  await Session.findOneAndDelete({ _id: sessionId, refreshToken });
+};
+
+export const refreshSessionController = async (sessionId, refreshToken) => {
+  try {
+    const session = await Session.findOne({ _id: sessionId, refreshToken });
+
+    if (!session) throw createHttpError(401, 'Session not found');
+
+    if (session.refreshTokenValidUntil < new Date())
+      throw createHttpError(401, 'Session expired');
+
+    const user = await User.findOne({ _id: session.userId });
+
+    if (!user) throw createHttpError(401, 'Session not found');
+
+    await Session.findByIdAndDelete({ _id: sessionId, refreshToken });
+
+    const newSession = await Session.create(createSession(user._id));
+
+    return newSession;
+  } catch (err) {
+    await await Session.findByIdAndDelete({ _id: sessionId, refreshToken });
+    throw err;
+  }
+};

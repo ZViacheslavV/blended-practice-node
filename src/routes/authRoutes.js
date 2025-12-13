@@ -3,9 +3,11 @@ import { Router } from 'express';
 import { registerUserValidationSchema } from '../validation/registerUserValidationSchema.js';
 import {
   loginUserController,
+  logoutUserController,
   registerUserController,
 } from '../controllers/authController.js';
 import { loginUserValidationSchema } from '../validation/loginUserValidationSchema.js';
+import { refreshSessionController } from '../services/auth.js';
 
 const authRouter = Router();
 
@@ -20,5 +22,9 @@ authRouter.post(
   celebrate(loginUserValidationSchema),
   loginUserController,
 );
+
+authRouter.post('/auth/logout', logoutUserController);
+
+authRouter.post('/auth/refresh', refreshSessionController);
 
 export default authRouter;
