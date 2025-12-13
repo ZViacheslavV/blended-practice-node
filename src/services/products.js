@@ -1,9 +1,10 @@
 import { ProductModel } from '../models/product.js';
 
-export const getProducts = /* async */ () => /* await */ ProductModel.find();
+export const getProducts = /* async */ (req) =>
+  /* await */ ProductModel.find({ userId: req.user._id });
 
-export const getProductById = (productId) =>
-  ProductModel.findOne({ _id: productId });
+export const getProductById = (productId, userId) =>
+  ProductModel.findOne({ _id: productId, userId });
 
 export const createProduct = (payload) => ProductModel.create(payload);
 
