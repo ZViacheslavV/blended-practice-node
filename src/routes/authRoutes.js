@@ -4,10 +4,10 @@ import { registerUserValidationSchema } from '../validation/registerUserValidati
 import {
   loginUserController,
   logoutUserController,
+  refreshSessionController,
   registerUserController,
 } from '../controllers/authController.js';
 import { loginUserValidationSchema } from '../validation/loginUserValidationSchema.js';
-import { refreshSessionController } from '../services/auth.js';
 
 const authRouter = Router();
 
