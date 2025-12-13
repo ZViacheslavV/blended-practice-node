@@ -8,7 +8,7 @@ import {
 } from '../services/products.js';
 
 export const getAllProductsController = async (req, res) => {
-  const products = await getProducts(req);
+  const products = await getProducts({ filter: { userId: req.user._id } });
 
   res.json({
     status: 200,
@@ -19,7 +19,7 @@ export const getAllProductsController = async (req, res) => {
 
 export const getProductByIdController = async (req, res) => {
   const { productId } = req.params;
-  const product = await getProductById(productId);
+  const product = await getProductById(productId, res.user._id);
 
   if (!product) throw createHttpError(404, 'Product not found');
 
