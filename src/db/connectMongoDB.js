@@ -1,12 +1,23 @@
 import mongoose from 'mongoose';
+import { ProductModel } from '../models/product.js';
+
+const clientOptions = {
+  serverApi: { version: '1', strict: false, deprecationErrors: true },
+};
 
 export const connectMongoDB = async () => {
   try {
-    const mongoUrl = process.env.MONGO_URL;
-    await mongoose.connect(mongoUrl);
+    const mongoURL = process.env.MONGO_URL;
+    await mongoose.connect(mongoURL, clientOptions);
     console.log('✅ MongoDB connection established successfully');
-  } catch (error) {
-    console.error('❌ Failed to connect to MongoDB:', error.message);
+
+    await mongoose.connection.db.admin().command({ ping: 1 });
+    console.log('✅ Deployment pinged successfully');
+
+    await ProductModel.syncIndexes();
+    console.log('✅ Indexes synced successfully');
+  } catch (err) {
+    console.error('❌ Failed to connect to MongoDB:', err.message);
     process.exit(1);
   }
 };

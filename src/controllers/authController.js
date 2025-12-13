@@ -1,4 +1,4 @@
-import { setSessionCookies } from '../helper/authHelper.js';
+import { setSessionCookies } from '../helper/authHelpers.js';
 import { loginUser, registerUser } from '../services/auth.js';
 
 export const registerUserController = async (req, res) => {
@@ -11,11 +11,10 @@ export const registerUserController = async (req, res) => {
   });
 };
 
-//TODO
 export const loginUserController = async (req, res) => {
-  const session = await loginUser(req.body);
+  const [session, user] = await loginUser(req.body);
 
-  setSessionCookies(session, res);
+  setSessionCookies(res, session);
 
   res.json({
     status: 200,

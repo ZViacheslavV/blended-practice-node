@@ -41,5 +41,5 @@ export const loginUser = async (payload) => {
 
   const session = await Session.create(createSession(existingUser._id));
 
-  return session;
+  return [session, existingUser];
 };

@@ -4,9 +4,7 @@ export const loginUserValidationSchema = {
   [Segments.BODY]: Joi.object({
     // userName: Joi.string().required(),
     email: Joi.string().email().required(),
-    password: Joi.string()
-      .required()
-      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*?&]).{12,}$/),
+    password: Joi.string().required(),
   }),
 };
 
